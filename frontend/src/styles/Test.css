@@ -1,0 +1,90 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.headerTest{
+    background-color: rgb(230, 230, 230);
+    height: 70px;
+}
+.headerTitle{
+    padding: 10px;
+    font-size: 35px;
+}
+.questionp{
+    margin-top: 55px;
+    font-size: 30px;
+    text-align: left;
+    margin-left: 50px;
+}
+.horizontalLine{
+    width: 95%;
+    border: 0.5px solid rgb(207, 207, 207);
+    margin-left: 50px;
+    margin-top: 25px;
+}
+.questionpara{
+    margin-left: 50px;
+    margin-top: 25px;
+    text-align: left;
+}
+/* Style for the options container */
+.optionsdiv {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+    margin-left: 50px; /* Adjust margin to fit design */
+}
+
+/* Style for each option */
+.optionsdiv div {
+    margin-bottom: 8px; /* Space between options */
+}
+
+/* Style for the option labels */
+.optionsdiv label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+/* Style for the radio inputs */
+.optionsdiv input[type="radio"] {
+    margin-right: 10px; /* Space between radio button and option text */
+}
+
+#driverbutton1{
+    width: 150px;
+    margin-top: 200px;
+    margin-right: 20px;
+    border-top-left-radius: 100px;
+    border-bottom-left-radius: 100px;
+
+}
+#driverbutton2{
+    width: 150px;
+    margin-top: 200px;
+    margin-right: 20px;
+    border-top-right-radius: 100px;
+    border-bottom-right-radius: 100px;
+
+}
+.submitbutton{
+    width: 150px;
+    margin-top: 200px;
+    border-radius: 100px;
+}
+
+.cameraContainer {
+    display: flex;
+    justify-content: center;
+    margin-left: 1550px;
+  }
+  
+  .cameraPreview {
+    width: 100%;
+    width: 250px; /* Adjust the size as needed */
+    border: 2px solid #ccc; /* Optional styling */
+    border-radius: 10px; /* Optional styling */
+    
+  }
+  
