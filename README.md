@@ -32,4 +32,4 @@ This project is a Full-Stack Web Application designed for conducting multiple-ch
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/aharshsingh/TestEnivromentPlatform.git>
