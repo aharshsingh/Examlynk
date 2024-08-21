@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import cypherschoolLogo from '../public/cipher-social.jpg';
 import { Navigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Fixed import statement
+import { jwtDecode } from 'jwt-decode'; 
 import '../styles/UserRegister.css';
 import { UserContext } from '../context/userContext';
 
@@ -16,7 +16,7 @@ export default function UserRegister() {
     
     const verifyToken = async (token) => {
         try {
-            const response = await axios.post('http://localhost:7000/verify', { token });
+            const response = await axios.post('https://testenivromentplatform.onrender.com/verify', { token });
 
             if (response.status === 200) {
                 setMessage('Login successful!');
@@ -33,7 +33,7 @@ export default function UserRegister() {
         e.preventDefault();
 
         try {
-            const response = await axios.post('http://localhost:7000/login', {
+            const response = await axios.post('https://testenivromentplatform.onrender.com/login', {
                 email,
                 password,
             });
