@@ -32,4 +32,46 @@ This project is a Full-Stack Web Application designed for conducting multiple-ch
 
 1. Clone the repository:
    ```bash
-   git clone <https://github.com/aharshsingh/TestEnivromentPlatform.git>
+   git clone https://github.com/aharshsingh/TestEnivromentPlatform.git
+   
+### Frontend
+
+1. Navigate to the frontend directory:
+   ```bash
+   cd frontend
+
+2. Install dependencies:
+    ```
+    npm install
+3. Start the development server:
+    ```
+   npm start
+
+## Deployment
+
+### Frontend
+- **Platform:** Netlify
+- **Live Demo:** [View Live Demo](https://cipherschoolstestapp.netlify.app/)
+
+### Backend
+- **Platform:** Render
+- **Live API:** [Access Live API](https://testenivromentplatform.onrender.com)
+
+## Cron Jobs
+The backend includes a cron job that runs every hour to evaluate submitted tests and send results via email.
+
+## Dependencies
+
+### Frontend
+- `react`
+- `react-dom`
+- `react-router-dom`
+- `axios`
+
+### Backend
+- `express`
+- `mongoose`
+- `nodemailer`
+- `node-cron`
+- `jsonwebtoken`
+- `dotenv`
