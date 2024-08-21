@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import cypherschoolLogo from '../public/cipher-social.jpg';
 import { Navigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Fixed import statement
 import '../styles/UserRegister.css';
+import { UserContext } from '../context/userContext';
 
 export default function UserRegister() {
     const [email, setEmail] = useState('');
@@ -11,6 +12,8 @@ export default function UserRegister() {
     const [message, setMessage] = useState('');
     const [redirect, setRedirect] = useState(false);
 
+    const { userId, setUserId } = useContext(UserContext);
+    
     const verifyToken = async (token) => {
         try {
             const response = await axios.post('http://localhost:7000/verify', { token });
@@ -42,6 +45,7 @@ export default function UserRegister() {
                 const decodedToken = jwtDecode(token);
                 const { _id } = decodedToken;
                 localStorage.setItem('userId', _id);
+                setUserId(_id);
             } else {
                 setMessage('Login failed. Please try again.');
             }
@@ -60,10 +64,10 @@ export default function UserRegister() {
                 <img className='cypherschoolLogo' src={cypherschoolLogo} alt='cypherschoolLogo' />
                 <div className='registerHorLine'></div>
                 <div className="signup-container">
-                    <h2>Sign In</h2>
+                    <h2 style={{color: "white"}}>Sign In</h2>
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
-                            <label>Email</label>
+                            <label style={{color: "white"}}>Email</label>
                             <input
                                 type="email"
                                 value={email}
@@ -72,7 +76,7 @@ export default function UserRegister() {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Password</label>
+                            <label style={{color: "white"}}>Password</label>
                             <input
                                 type="password"
                                 value={password}

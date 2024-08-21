@@ -16,6 +16,10 @@ const submissionController = {
         } catch (error) {
             return next(error);
         }
+    },
+
+    async checkSubmissions(){
+        
     }
 }
 

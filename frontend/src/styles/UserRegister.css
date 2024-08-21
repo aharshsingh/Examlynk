@@ -3,13 +3,14 @@
     column-gap: 150px;
 }
 .cypherschoolLogo {
-    margin-top: 250px;
-    margin-left: 150px;
-    height: 500px;
-    width: 800px;
-    display: block;
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+  margin-top: 250px;
+  margin-left: 150px;
+  height: 500px;
+  width: 800px;
+  display: block;
+  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.4); /* Darker shadow */
 }
+
 
 .registerHorLine{
     border-left: rgb(214, 214, 214) solid 1px;
@@ -19,7 +20,7 @@
 
 .signup-container {
     width: 400px;
-    height: 350px;
+    height: 300px;
     margin-top: 280px;
     padding: 20px;
     border: 1px solid #ddd;

@@ -1,17 +1,19 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Test.css'
+import '../styles/Test.css';
+import { UserContext } from '../context/userContext';
 
 export default function Test() {
   const [test, setTest] = useState({});
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState({}); // State to store answers
-  const [startTime, setStartTime] = useState(new Date().toISOString()); // Track start time
-  // const [videoStream, setVideoStream] = useState(null);
-  const videoRef = useRef(null); 
+  const [answers, setAnswers] = useState({});
+
+  const videoRef = useRef(null);
   const navigate = useNavigate();
+  const { userId } = useContext(UserContext);
+
   useEffect(() => {
     const getTest = async () => {
       try {
@@ -27,13 +29,11 @@ export default function Test() {
   }, []);
 
   useEffect(() => {
-    // Function to start video stream
     const startVideo = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
-          // Wait for the metadata to be loaded before calling play
           videoRef.current.onloadedmetadata = () => {
             videoRef.current.play();
           };
@@ -43,10 +43,8 @@ export default function Test() {
       }
     };
 
-    // Start video stream when component mounts
     startVideo();
 
-    // Clean up video stream on component unmount
     return () => {
       if (videoRef.current && videoRef.current.srcObject) {
         const stream = videoRef.current.srcObject;
@@ -68,7 +66,6 @@ export default function Test() {
     setQuestions(fetchedQuestions);
   };
 
-  // Use useEffect to log questions whenever it changes
   useEffect(() => {
     console.log('Updated questions:', questions);
   }, [questions]);
@@ -90,16 +87,14 @@ export default function Test() {
       ...answers,
       [questionId]: {
         option,
-        savedAt: new Date().toISOString() // Save the time when the option is selected
+        savedAt: new Date().toISOString()
       }
     });
   };
 
   const handleSubmitAnswers = async () => {
     try {
-      const endedAt = new Date().toISOString(); // Track end time
-
-      // Format the answers into the desired structure
+      const endedAt = new Date().toISOString();
       const formattedAnswers = Object.entries(answers).map(([questionId, { option, savedAt }]) => ({
         questionId,
         option,
@@ -107,8 +102,8 @@ export default function Test() {
       }));
 
       const submission = {
-        testId: test._id, // Assuming test._id holds the test ID
-        userId: '66c20d26649fe7fb86fb5e72', // Replace with the actual user ID
+        testId: test._id,
+        userId: userId,
         selections: formattedAnswers,
         endedAt
       };
@@ -121,9 +116,12 @@ export default function Test() {
     }
   };
 
-  // Ensure questions are loaded before rendering
   if (questions.length === 0) {
-    return <p>Loading questions...</p>;
+    return (
+      <p className='loading' style={{ marginTop: '350px', marginLeft: '850px', color: 'white', fontSize: '30px' }}>
+        Loading questions...
+      </p>
+    );
   }
 
   const currentQuestion = questions[currentQuestionIndex];
@@ -131,14 +129,14 @@ export default function Test() {
   return (
     <div>
       <div className='headerTest'>
-      <p className='headerTitle'>{test.title}</p>
+        <p className='headerTitle'>{test.title}</p>
       </div>
-      
+
       <div>
-          <p className='questionp'>Question {currentQuestionIndex + 1}</p>
-          <div className='horizontalLine'></div>
-          <p className='questionpara'>{currentQuestion.question}</p>
-          <div className='optionsdiv'> 
+        <p className='questionp'>Question {currentQuestionIndex + 1}</p>
+        <div className='horizontalLine'></div>
+        <p className='questionpara'>{currentQuestion.question}</p>
+        <div className='optionsdiv'>
           {currentQuestion.options.map((option, index) => (
             <div key={index}>
               <label>
@@ -155,13 +153,30 @@ export default function Test() {
           ))}
         </div>
         <div className='cameraContainer'>
-        <video ref={videoRef} className='cameraPreview' autoPlay muted></video>
-      </div>
+          <video ref={videoRef} className='cameraPreview' autoPlay muted></video>
+        </div>
       </div>
       <div>
-        <button id='driverbutton1' onClick={handlePrevious} disabled={currentQuestionIndex === 0}>Previous</button>
-        <button id='driverbutton2' onClick={handleNext} disabled={currentQuestionIndex === questions.length - 1}>Next</button>
-        <button className='submitbutton' onClick={handleSubmitAnswers}>Submit Answers</button>
+        <button
+          id='driverbutton1'
+          onClick={handlePrevious}
+          disabled={currentQuestionIndex === 0}
+        >
+          Previous
+        </button>
+        <button
+          id='driverbutton2'
+          onClick={handleNext}
+          disabled={currentQuestionIndex === questions.length - 1}
+        >
+          Next
+        </button>
+        <button
+          className='submitbutton'
+          onClick={handleSubmitAnswers}
+        >
+          Submit Answers
+        </button>
       </div>
     </div>
   );

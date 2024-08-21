@@ -8,9 +8,9 @@ const errorHandler = require('./middlewares/errorHandler')
 const cron = require('node-cron');
 const { mailController } = require('./controllers/index');
 
-cron.schedule(' * * * * * ', async () => {
-  console.log('Running a task every 10 seconds to check submissions...');
-  mailController.sendmail;
+cron.schedule('0 * * * *', async () => {
+  console.log('Running a task every hour to check submissions...');
+  mailController.sendmail();
 });
 
 mongoose.connect(DB_URL, {
