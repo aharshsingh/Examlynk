@@ -12,7 +12,7 @@ function App() {
       <UserProvider>
           <BrowserRouter>
             <Routes>
-              <Route path="/" Component={UserLogin} /> {/* Default route */}
+              <Route path="/" Component={UserLogin} />
               <Route path="/userlogin" Component={UserLogin} />
               <Route path="/enviromentpreview" Component={EnviromentPreview} />
               <Route path="/finish" Component={Finish} />

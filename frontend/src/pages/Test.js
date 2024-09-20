@@ -17,7 +17,7 @@ export default function Test() {
   useEffect(() => {
     const getTest = async () => {
       try {
-        const response = await axios.get('https://testenivromentplatform.onrender.com/test');
+        const response = await axios.get('https://localhost:7000/test');
         console.log(response.data);
         setTest(response.data);
         await getQuestionsSequentially(response.data.questions);
@@ -57,7 +57,7 @@ export default function Test() {
     const fetchedQuestions = [];
     for (let id of questionIds) {
       try {
-        const response = await axios.get(`https://testenivromentplatform.onrender.com/question/${id}`);
+        const response = await axios.get(`https://localhost:7000/question/${id}`);
         fetchedQuestions.push(response.data);
       } catch (error) {
         console.log(`Error fetching question with ID ${id}`, error);
@@ -108,7 +108,7 @@ export default function Test() {
         endedAt
       };
 
-      await axios.post('https://testenivromentplatform.onrender.com/uploadSubmission', submission);
+      await axios.post('https://localhost:7000/uploadSubmission', submission);
       alert('Answers submitted successfully!');
       navigate('/finish');
     } catch (error) {

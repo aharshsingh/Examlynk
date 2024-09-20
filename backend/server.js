@@ -6,12 +6,17 @@ const routes = require('./routes');
 const cors = require("cors");
 const errorHandler = require('./middlewares/errorHandler')
 const cron = require('node-cron');
-const { mailController } = require('./controllers/index');
+const mailController  = require('./services/mailController');
 
 cron.schedule('0 * * * *', async () => {
   console.log('Running a task every hour to check submissions...');
   mailController.sendmail();
 });
+
+// cron.schedule('*/5 * * * *', async () => {
+//   console.log('Running a task every 5 minutes to check submissions...');
+//   mailController.sendmail();
+// });
 
 mongoose.connect(DB_URL, {
 serverSelectionTimeoutMS: 30000

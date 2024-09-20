@@ -1,31 +1,20 @@
-.outerContainerRegister{
-    display: flex;
-    column-gap: 150px;
-}
-.cypherschoolLogo {
-  margin-top: 250px;
-  margin-left: 150px;
-  height: 500px;
-  width: 800px;
-  display: block;
-  box-shadow: 0 2px 4px rgba(255, 0, 0, 0.4); /* Darker shadow */
-}
-
-
-.registerHorLine{
-    border-left: rgb(214, 214, 214) solid 1px;
-    margin-top: 150px;
-    height: 700px
+body {
+  background: rgb(8,14,23);
+  background: radial-gradient(ellipse at center, rgba(8,14,23,1) 9%, rgba(4,21,39,0.9752275910364145) 53%, rgba(8,14,23,1) 91%) no-repeat;
+  background-size: 100% 100%;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .signup-container {
     width: 400px;
-    height: 300px;
+    height: 350px;
     margin-top: 280px;
+    margin-left: 750px;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd3b;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    background-color: #050F19;
   }
   
   .signup-container h2 {
@@ -49,16 +38,19 @@
     border: 1px solid #ddd;
     border-radius: 3px;
     box-sizing: border-box;
+    background-color: #05070A;
+    color: white;
   }
   
   button {
+    margin-top: 40px;
     width: 100%;
     padding: 10px;
     border: none;
     border-radius: 3px;
     background-color: #ee9044;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s;
   }
@@ -69,6 +61,6 @@
 
   .link-to-home {
     text-decoration: none;
-    color: #007bff; /* Example color */
+    color: #007bff; 
     font-size: 14px;
 }  

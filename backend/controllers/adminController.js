@@ -5,7 +5,9 @@ const adminController = {
     async uploadTest(req,res,next){
 
         const {error} = testSchema.validate(req.body);
-
+        if (error) {
+            return next(error);
+        }
         const { title, descriptions, questions } = req.body;
         const test = new Test({
             title,
@@ -24,7 +26,9 @@ const adminController = {
     async uploadQuestion(req,res,next){
 
         const {error} = questionSchema.validate(req.body);
-
+        if (error) {
+            return next(error);
+        }
         const { question, options, testId, marks, correctOption } = req.body;
         const questions = new Questions({
             question,

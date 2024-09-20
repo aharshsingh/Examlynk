@@ -15,9 +15,17 @@ const testSchema = Joi.object({
 });
 
 const questionSchema = Joi.object({
-    question: Joi.string().alphanum().required(),
+    question: Joi.string().required(),
     options: Joi.array().items(Joi.string().required()).required(),
     marks: Joi.number().required(),
+    testId: Joi.string().required(), 
     correctOption: Joi.string().required()
 });
-module.exports = { loginSchema, tokenSchema, testSchema, questionSchema };
+
+const adminRegisterSchema = Joi.object({
+    email: Joi.string().email().required(),
+    password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{4,16}$')).required(),
+    role: Joi.string().required()
+});
+
+module.exports = { adminRegisterSchema, loginSchema, tokenSchema, testSchema, questionSchema };

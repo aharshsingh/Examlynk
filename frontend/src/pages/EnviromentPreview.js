@@ -31,7 +31,6 @@ export default function EnviromentPreview() {
           maxWidth: '800px',
           padding: '20px',
           border: '1px solid #ccc',
-          borderRadius: '8px',
           backgroundColor: '#f9f9f9',
           height: '400px',
           overflowY: 'scroll',
@@ -39,7 +38,7 @@ export default function EnviromentPreview() {
           marginLeft: '210px',
         }}
       >
-        <h2>Online Test Platform Instructions</h2>
+        <h2>Online Test Platform Instructions</h2><br />
         <h3>Camera and Microphone Setup</h3>
         <p>
           <strong>Enable Camera & Microphone:</strong><br />
@@ -47,7 +46,7 @@ export default function EnviromentPreview() {
           A prompt will appear asking for permission. Please click "Allow" to proceed.
           Ensure your camera is positioned correctly and that your face is fully visible. Keep your microphone active throughout the test.
           <em>Note: Any attempt to disable the camera or microphone during the test may result in automatic disqualification.</em>
-        </p>
+        </p><br />
         <h3>Test Navigation and Features</h3>
         <p>
           <strong>Mark for Review:</strong><br />
@@ -74,13 +73,13 @@ export default function EnviromentPreview() {
           Each question will have multiple options. Click on the option you wish to select.
           You can change your selection by clicking on a different option.
           Ensure your selection is final before moving to the next question, especially if you do not intend to mark the question for review.
-        </p>
+        </p><br />
         <h3>Final Review and Submission</h3>
         <p>
           <strong>Review All:</strong><br />
           Before submitting, use the review feature to see all questions and your responses. Pay special attention to those marked for review.
           Once satisfied, click "Submit Test."
-        </p>
+        </p><br />
         <h3>Important Reminders</h3>
         <p>
           <strong>Time Management:</strong> Keep an eye on the timer. The test will automatically submit when time runs out.<br />
@@ -92,8 +91,7 @@ export default function EnviromentPreview() {
         <div
           style={{
             marginTop: '0px',
-            border: '1px solid #ccc',
-            borderRadius: '8px',
+            border: '1px solid #dddddd3b',
             width: '100%',
             maxWidth: '600px',
             height: '400px',
