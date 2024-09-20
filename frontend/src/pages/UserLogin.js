@@ -13,37 +13,37 @@ export default function UserRegister() {
 
     const { userId, setUserId } = useContext(UserContext);
     
-    const verifyToken = async (token) => {
-        try {
-            const response = await axios.post('https://localhost:7000/verify', { token });
+    // const verifyToken = async (token) => {
+    //     try {
+    //         const response = await axios.post('https://localhost:7000/verify', { token });
 
-            if (response.status === 200) {
-                setMessage('Login successful!');
-                setRedirect(true);
-            } else {
-                setMessage('Login failed. Please try again.');
-            }
-        } catch (error) {
-            setMessage('Token verification failed. Please try again.');
-        }
-    };
+    //         if (response.status === 200) {
+    //             setMessage('Login successful!');
+    //             setRedirect(true);
+    //         } else {
+    //             setMessage('Login failed. Please try again.');
+    //         }
+    //     } catch (error) {
+    //         setMessage('Token verification failed. Please try again.');
+    //     }
+    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post('https://localhost:7000/login', {
+            const response = await axios.post('https://localhost:3000/login', {
                 email,
                 password,
             });
 
             if (response.status === 200) {
                 const { token } = response.data;
-                localStorage.setItem('token', token);
+                localStorage.setItem('UserToken', token);
                 // await verifyToken(token);
                 const decodedToken = jwtDecode(token);
                 const { _id } = decodedToken;
-                localStorage.setItem('userId', _id);
+                // localStorage.setItem('userId', _id);
                 setUserId(_id);
             } else {
                 setMessage('Login failed. Please try again.');

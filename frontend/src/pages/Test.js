@@ -13,12 +13,18 @@ export default function Test() {
   const videoRef = useRef(null);
   const navigate = useNavigate();
   const { userId } = useContext(UserContext);
-
+  const token = localStorage.getItem('UserToken');
+  
+  const getAuthHeaders = () => ({
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
   useEffect(() => {
     const getTest = async () => {
       try {
-        const response = await axios.get('https://localhost:7000/test');
-        console.log(response.data);
+        const response = await axios.get('https://localhost:7000/test', getAuthHeaders());
+        // console.log(response.data);
         setTest(response.data);
         await getQuestionsSequentially(response.data.questions);
       } catch (error) {
@@ -57,7 +63,7 @@ export default function Test() {
     const fetchedQuestions = [];
     for (let id of questionIds) {
       try {
-        const response = await axios.get(`https://localhost:7000/question/${id}`);
+        const response = await axios.get(`https://localhost:7000/question/${id}`, getAuthHeaders());
         fetchedQuestions.push(response.data);
       } catch (error) {
         console.log(`Error fetching question with ID ${id}`, error);
@@ -108,7 +114,7 @@ export default function Test() {
         endedAt
       };
 
-      await axios.post('https://localhost:7000/uploadSubmission', submission);
+      await axios.post('https://localhost:7000/uploadSubmission', submission, getAuthHeaders());
       alert('Answers submitted successfully!');
       navigate('/finish');
     } catch (error) {
