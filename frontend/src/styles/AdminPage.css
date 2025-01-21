@@ -1,0 +1,91 @@
+  .admin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-top: 10px;
+  }
+
+  .admin-form {
+    background-color: #050F19;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+  }
+
+  .admin-heading {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 400;
+    text-align: left;
+  }
+  
+  .admin-label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #7F8AA1;
+    display: block;
+    margin-bottom: 8px;
+    text-align: left;
+  }
+
+  .admin-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background-color: #05070A;
+    color: white;
+  }
+
+  .admin-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .admin-submit-button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .admin-submit-button:hover {
+    background-color: #0056b3;
+  }
+
+  .admin-submit-button:focus {
+    outline: none;
+  }
+
+  @media (max-width: 500px) {
+    .admin-form {
+      padding: 30px;
+    }
+  
+    .admin-heading {
+      font-size: 24px;
+    }
+  
+    .admin-input {
+      font-size: 14px;
+    }
+  
+    .admin-submit-button {
+      font-size: 14px;
+    }
+  }
+  

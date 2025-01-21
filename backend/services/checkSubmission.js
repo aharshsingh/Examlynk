@@ -29,7 +29,7 @@ const checkSubmissions = async (transporter) => {
                 from: APP_EMAIL,
                 to: user.email,
                 subject: 'Your Test Results',
-                text: `Hello ${user.name},\n\nYour total marks for the test ${test.title} are: ${totalMarks}.\n\nBest regards,\nCipher School`
+                text: `Hello ${user.email},\n\nYour total marks for the test ${test.title} are: ${totalMarks}.\n\nBest regards`
               };
   
               transporter.sendMail(mailOptions, (error, info) => {

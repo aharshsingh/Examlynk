@@ -10,8 +10,8 @@ const tokenSchema = Joi.object({
 });
 
 const testSchema = Joi.object({
-    title: Joi.string().alphanum().max(30).required(),
-    descriptions: Joi.string().alphanum().required(),
+    title: Joi.string().max(30).required(),
+    descriptions: Joi.string().required(),
 });
 
 const questionSchema = Joi.object({

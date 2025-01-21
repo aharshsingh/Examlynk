@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Test.css';
@@ -9,61 +9,45 @@ export default function Test() {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
-  const videoRef = useRef(null);
   const navigate = useNavigate();
   const { userId } = useContext(UserContext);
   const token = localStorage.getItem('UserToken');
-  
+
   const getAuthHeaders = () => ({
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
+
   useEffect(() => {
     const getTest = async () => {
       try {
-        const response = await axios.get('https://localhost:7000/test', getAuthHeaders());
-        // console.log(response.data);
+        const response = await axios.get('https://examlynk.onrender.com/test', getAuthHeaders());
+        console.log(response.data)
         setTest(response.data);
         await getQuestionsSequentially(response.data.questions);
+        setLoading(false); 
       } catch (error) {
-        console.log(error);
+        setLoading(false); 
+        if (error.response && error.response.status === 401) {
+          setErrorMessage('Unauthorized access. Please log in to continue.');
+        } else {
+          setErrorMessage('An error occurred while fetching the test. Please try again later.');
+          console.error('Error fetching test:', error); 
+        }
       }
     };
     getTest();
-  }, []);
-
-  useEffect(() => {
-    const startVideo = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.onloadedmetadata = () => {
-            videoRef.current.play();
-          };
-        }
-      } catch (error) {
-        console.error('Error accessing webcam:', error);
-      }
-    };
-
-    startVideo();
-
-    return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject;
-        stream.getTracks().forEach(track => track.stop());
-      }
-    };
   }, []);
 
   const getQuestionsSequentially = async (questionIds) => {
     const fetchedQuestions = [];
     for (let id of questionIds) {
       try {
-        const response = await axios.get(`https://localhost:7000/question/${id}`, getAuthHeaders());
+        const response = await axios.get(`https://examlynk.onrender.com/question/${id}`, getAuthHeaders());
         fetchedQuestions.push(response.data);
       } catch (error) {
         console.log(`Error fetching question with ID ${id}`, error);
@@ -71,10 +55,6 @@ export default function Test() {
     }
     setQuestions(fetchedQuestions);
   };
-
-  useEffect(() => {
-    console.log('Updated questions:', questions);
-  }, [questions]);
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -113,19 +93,34 @@ export default function Test() {
         selections: formattedAnswers,
         endedAt
       };
+      console.log(userId);
+      console.log(submission);
 
-      await axios.post('https://localhost:7000/uploadSubmission', submission, getAuthHeaders());
+      await axios.post('https://examlynk.onrender.com/uploadSubmission', submission, getAuthHeaders());
       alert('Answers submitted successfully!');
       navigate('/finish');
     } catch (error) {
-      console.log('Error submitting answers:', error);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage('Unauthorized access. Please log in to continue.');
+      } else {
+        setErrorMessage('An error occurred while submitting answers. Please try again later.');
+        console.log('Error submitting answers:', error);
+      }
     }
   };
+
+  if (loading) {
+    return (
+      <p className='loading' style={{ marginTop: '350px', marginLeft: '850px', color: 'white', fontSize: '30px' }}>
+        Loading questions...
+      </p>
+    );
+  }
 
   if (questions.length === 0) {
     return (
       <p className='loading' style={{ marginTop: '350px', marginLeft: '850px', color: 'white', fontSize: '30px' }}>
-        Loading questions...
+        No questions available.
       </p>
     );
   }
@@ -138,12 +133,20 @@ export default function Test() {
         <p className='headerTitle'>{test.title}</p>
       </div>
 
+      {errorMessage && (
+        <div className="error-container" style={{ margin: '20px', color: 'red', backgroundColor: '#f8d7da', padding: '10px', borderRadius: '5px' }}>
+          <p className="error-message">{errorMessage}</p>
+        </div>
+      )}
+
       <div>
         <p className='questionp'>Question {currentQuestionIndex + 1}</p>
         <div className='horizontalLine'></div>
-        <p className='questionpara'>{currentQuestion.question}</p>
-        <div className='optionsdiv'>
-          {currentQuestion.options.map((option, index) => (
+        <div style={{display:'flex', columnGap:'500px'}}>
+          <div>
+          <p className='questionpara'>{currentQuestion.question}</p>
+          <div className='optionsdiv'>
+            {currentQuestion.options.map((option, index) => (
             <div key={index}>
               <label>
                 <input
@@ -156,10 +159,13 @@ export default function Test() {
                 {option}
               </label>
             </div>
-          ))}
+            ))}
+          </div>
+        <div style={{display:'flex'}}>
+          <div className='verticalLine'></div>
+          <div className='questionSerial'></div>
         </div>
-        <div className='cameraContainer'>
-          <video ref={videoRef} className='cameraPreview' autoPlay muted></video>
+        </div>
         </div>
       </div>
       <div>

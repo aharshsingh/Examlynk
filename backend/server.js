@@ -8,16 +8,20 @@ const errorHandler = require('./middlewares/errorHandler');
 const cron = require('node-cron');
 const mailController = require('./services/mailController');
 
-// CORS Options
 const corsOptions = {
-  origin: 'http://localhost:3000', // Adjust as necessary for production
-  methods: 'GET,POST,PUT,DELETE',
-  credentials: true, // Allow credentials if needed
+  origin: 'http://localhost:3000', 
+  methods: 'GET,POST,PUT,DELETE,PATCH',
+  credentials: true,
 };
 
-cron.schedule('0 * * * *', async () => {
-  console.log('Running a task every hour to check submissions...');
-  mailController.sendmail();
+// cron.schedule('0 * * * *', async () => {
+//   console.log('Running a task every hour to check submissions...');
+//   mailController.sendmail();
+// });
+
+cron.schedule('* * * * *', async () => {
+  console.log('Running a task every minute to check submissions...');
+  await mailController.sendmail();
 });
 
 mongoose.connect(DB_URL, {
@@ -29,7 +33,7 @@ db.once('open', () => {
   console.log('DB connected...');
 });
 
-app.use(cors(corsOptions)); // Use specified CORS options
+app.use(cors(corsOptions)); 
 app.use(express.json());
 app.use(routes);
 app.use(errorHandler);

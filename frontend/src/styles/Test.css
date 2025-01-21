@@ -3,12 +3,13 @@
     margin: 0px;
 }
 .headerTest{
-    background-color: rgb(230, 230, 230);
     height: 70px;
 }
 .headerTitle{
     padding: 10px;
     font-size: 35px;
+    color: white;
+    margin-left: 40px;
 }
 .questionp{
     margin-top: 55px;
@@ -84,9 +85,9 @@
   
   .cameraPreview {
     width: 100%;
-    width: 250px; /* Adjust the size as needed */
-    border: 2px solid #ccc; /* Optional styling */
-    border-radius: 10px; /* Optional styling */
+    width: 250px; 
+    border: 2px solid #ccc;
+    border-radius: 10px; 
     
   }
   .loading{

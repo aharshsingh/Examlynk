@@ -24,12 +24,11 @@ const adminController = {
     },
 
     async uploadQuestion(req,res,next){
-
         const {error} = questionSchema.validate(req.body);
         if (error) {
             return next(error);
         }
-        const { question, options, testId, marks, correctOption } = req.body;
+        const { question, options, testId , marks, correctOption } = req.body;
         const questions = new Questions({
             question,
             options,
@@ -37,7 +36,6 @@ const adminController = {
             marks,
             correctOption
         });
-
         try {
             const result = await questions.save();
             res.json(result);
@@ -57,6 +55,7 @@ const adminController = {
             res.status(500).json({ message: error.message });
         }
     }
+    
 }
 
 module.exports = adminController;

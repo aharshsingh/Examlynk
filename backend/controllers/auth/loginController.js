@@ -42,7 +42,7 @@ const loginController = {
             console.log(user.role);
             // const access_token = new Jwt({ token });
             // await access_token.save();
-            res.json(token);
+            res.json({ token });
         } catch (err) {
             return next(err);
         }

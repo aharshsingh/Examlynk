@@ -8,12 +8,13 @@ const auth =async(req,res,next) => {
     }
     const token = authHeader.split(' ')[1];
     try {
-        const { id, role } =  await JwtService.verify(token);
+        const { _id, role } = JwtService.verify(token);
         const user = {
-            id,
+            _id,
             role
         }
         req.user = user;
+        console.log(user._id);
         next();
     } catch (error) {
         return next(CustomErrorHandler.notAuthorized());
