@@ -1,24 +1,19 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; 
 import '../styles/UserRegister.css';
 import { UserContext } from '../context/userContext';
+import logo from '../public/logo-transparent-png.png';
 
 export default function UserRegister() {
+    const {fetchUser} = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const [redirect, setRedirect] = useState(false);
-    const { userId, setUserId } = useContext(UserContext);
-
-    useEffect(() => {
-        console.log('Updated userId:', userId);
-    }, [userId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
             const response = await axios.post('https://examlynk.onrender.com/login', {
                 email,
@@ -27,20 +22,8 @@ export default function UserRegister() {
 
             if (response.status === 200) {
                 const { token } = response.data;
-                console.log('Received token:', token); 
-
                 localStorage.setItem('UserToken', token);
-                const decodedToken = jwtDecode(token);  
-
-                if (!decodedToken || !decodedToken._id) {
-                    console.error('Invalid token or missing _id:', decodedToken);
-                    setMessage('Login failed. Please try again.');
-                    return;
-                }
-                
-                const { _id } = decodedToken;
-                setUserId(_id);  // Update userId in context
-                console.log('Setting userId to:', _id);
+                fetchUser(token);
                 setRedirect(true);
             } else {
                 setMessage('Login failed. Please try again.');
@@ -52,11 +35,14 @@ export default function UserRegister() {
     };
 
     if (redirect) {
-        return <Navigate to="/enviromentpreview" />;
+        return <Navigate to="/selectTest" />;
     }
 
     return (
         <div>
+            <div>
+                <img style={{width:'120px', height:'120px'}} src={logo} alt='logo' />
+            </div>
             <div className="signup-container">
                 <h2 style={{ color: "white", fontSize: "39px", textAlign: "left", fontWeight: "400" }}>Sign in</h2>
                 <form onSubmit={handleSubmit}>

@@ -8,7 +8,7 @@ import { UserProvider } from './context/userContext';
 import AdminPage from './pages/AdminPage';
 import AdminUploadQue from './pages/AminUploadQue'
 import AdminRepositingQue from './pages/AdminRepositingQue';
-
+import SelectTest from './pages/SelectTest'
 function App() {
   return (
     <div className="App">
@@ -23,6 +23,7 @@ function App() {
               <Route path="/adminpanel" Component={AdminPage} />
               <Route path="/adminUploadQue" Component={AdminUploadQue} />
               <Route path="/adminReposQue" Component={AdminRepositingQue} />
+              <Route path='/selecttest' Component={SelectTest}/>
             </Routes>
           </BrowserRouter>
       </UserProvider>

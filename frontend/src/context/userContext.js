@@ -4,32 +4,34 @@ import axios from 'axios';
 export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null);
-  const [userName, setUserName] = useState('');
+  const [user, setUser] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(()=>{
+    if(isLoggedIn){
+      const info = localStorage.getItem("user");
+      setUser(info);
+    }
+  },[user, isLoggedIn]);
 
-  useEffect(() => {
-    const fetchUserEmail = async () => {
+    const fetchUser = async (token) => {
       try {
-        const token = localStorage.getItem('UserToken');
-        const response = await axios.get('https://examlynk.onrender.com/getUserEmail', {
+        const response = await axios.get('http://localhost:7000/getuser', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const userEmail = response.data.email; 
-        const name = userEmail.split('@')[0];
-        setUserName(name);
-        console.log(userName)
+        setUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+        setIsLoggedIn(true);
+        // const name = userEmail.split('@')[0];
+        // setUserName(name);
       } catch (error) {
-        console.error('Error fetching user email:', error);
+        console.error('Error fetching user:', error);
       }
     };
 
-    fetchUserEmail();
-  }, []);
-
   return (
-    <UserContext.Provider value={{ userId, setUserId, userName }}>
+    <UserContext.Provider value={{ user, setUser, fetchUser }}>
       {children}
     </UserContext.Provider>
   );

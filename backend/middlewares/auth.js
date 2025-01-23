@@ -14,7 +14,6 @@ const auth =async(req,res,next) => {
             role
         }
         req.user = user;
-        console.log(user._id);
         next();
     } catch (error) {
         return next(CustomErrorHandler.notAuthorized());
