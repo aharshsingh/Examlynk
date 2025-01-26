@@ -13,16 +13,17 @@
 }
 .questionp{
     margin-top: 55px;
-    font-size: 30px;
+    font-size: 25px;
     text-align: left;
     margin-left: 50px;
     color: white;
 }
 .horizontalLine{
     width: 95%;
-    border: 0.5px solid rgb(207, 207, 207);
+    border: 1px solid rgb(255, 255, 255);
+    opacity: 0.1;
     margin-left: 50px;
-    margin-top: 25px;
+    margin-top: 5px;
 }
 .questionpara{
     margin-left: 50px;

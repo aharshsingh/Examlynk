@@ -33,11 +33,12 @@ export const TitleSort = (event, setSelectedOption2, tests, setTests)=>{
 
 export const getTest = async (setTest, setLoading, setErrorMessage, setQuestions, testId) => {
   try {
+    console.log(testId);
     const response = await axios.get(`http://localhost:7000/test/${testId}`, AuthHeader());
-    console.log(response.data)
-    setTest(response.data);
     await getQuestionsSequentially(response.data.questions, setQuestions);
     setLoading(false); 
+    localStorage.setItem('test', JSON.stringify(response.data));
+    setTest(response.data);
   } catch (error) {
     setLoading(false); 
     if (error.response && error.response.status === 401) {
@@ -61,10 +62,11 @@ const getQuestionsSequentially = async (questionIds, setQuestions) => {
     }
   }
   setQuestions(fetchedQuestions);
+  localStorage.setItem('questions', JSON.stringify(fetchedQuestions));
   return;
 };
 
-export const handleSubmitAnswers = async (answers, userId, setErrorMessage, navigate) => {
+export const handleSubmitAnswers = async (testId, answers, userId, setErrorMessage, navigate) => {
   try {
     const endedAt = new Date().toISOString();
     const formattedAnswers = Object.entries(answers).map(([questionId, { option, savedAt }]) => ({
@@ -72,16 +74,13 @@ export const handleSubmitAnswers = async (answers, userId, setErrorMessage, navi
       option,
       savedAt
     }));
-
     const submission = {
-      testId: test._id,
-      userId: userId,
+      testId,
+      userId,
       selections: formattedAnswers,
       endedAt
     };
-    console.log(userId);
-    console.log(submission);
-
+    console.log('Submission payload:', submission);
     await axios.post('http://localhost:7000/uploadSubmission', submission, AuthHeader());
     alert('Answers submitted successfully!');
     navigate('/finish');
@@ -90,6 +89,7 @@ export const handleSubmitAnswers = async (answers, userId, setErrorMessage, navi
       setErrorMessage('Unauthorized access. Please log in to continue.');
     } else {
       setErrorMessage('An error occurred while submitting answers. Please try again later.');
+      console.error(error);
       console.log('Error submitting answers:', error);
     }
   }

@@ -6,12 +6,13 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  
   useEffect(()=>{
     if(isLoggedIn){
       const info = localStorage.getItem("user");
-      setUser(info);
+      setUser(JSON.parse(info));
     }
-  },[user, isLoggedIn]);
+  },[]);
 
     const fetchUser = async (token) => {
       try {
