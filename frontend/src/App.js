@@ -9,10 +9,12 @@ import AdminPage from './pages/AdminPage';
 import AdminUploadQue from './pages/AminUploadQue'
 import AdminRepositingQue from './pages/AdminRepositingQue';
 import SelectTest from './pages/SelectTest'
+import { TestProvider } from './context/testContext';
 function App() {
   return (
     <div className="App">
       <UserProvider>
+        <TestProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" Component={UserLogin} />
@@ -26,6 +28,7 @@ function App() {
               <Route path='/selecttest' Component={SelectTest}/>
             </Routes>
           </BrowserRouter>
+          </TestProvider>
       </UserProvider>
     </div>
   );

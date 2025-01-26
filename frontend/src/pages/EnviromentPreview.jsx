@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import logo from '../public/logo-transparent-png.png';
 
 export default function EnviromentPreview() {
   const videoRef = useRef(null);
@@ -24,7 +25,11 @@ export default function EnviromentPreview() {
   }, [setPermissionGranted]);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row', columnGap: '50px', alignItems: 'center', padding: '20px', marginTop: '200px' }}>
+    <>
+    <div>
+      <img style={{width:'120px', height:'120px'}} src={logo} alt='logo' />
+    </div>
+    <div style={{ display: 'flex', flexDirection: 'row', columnGap: '50px', alignItems: 'center', padding: '20px', marginTop: '150px' }}>
       <div
         style={{
           width: '80%',
@@ -113,5 +118,6 @@ export default function EnviromentPreview() {
         <p style={{ color: 'white' }}>Permission to access the camera and microphone is required to view the preview.</p>
       )}
     </div>
+    </>
   );
 }

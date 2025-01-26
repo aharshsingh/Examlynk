@@ -34,7 +34,7 @@ const loginController = {
             if (!match) {
                 return next(customErrorHandler.wrongCredentials('Username or password is wrong'));
             }
-
+            console.log(user)
             const token = JwtService.sign({ _id: user.id, role: user.role});
             res.json({ token });
         } catch (err) {

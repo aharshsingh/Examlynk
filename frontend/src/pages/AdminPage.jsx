@@ -3,19 +3,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/userContext';
 import '../styles/AdminPage.css'
+import { AuthHeader } from '../uitls/AuthHeader';
 
 export default function AdminPage() {
   const { userName } = useContext(UserContext);
   const [title, setTitle] = useState('');
   const [descriptions, setDescriptions] = useState('');
-  const token = localStorage.getItem('UserToken');
-  const navigate = useNavigate();
 
-  const getAuthHeaders = () => ({
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const navigate = useNavigate();
 
   const handleTestUpload = async (e) => {
     e.preventDefault();
@@ -26,7 +21,7 @@ export default function AdminPage() {
           title,
           descriptions,
         },
-        getAuthHeaders()
+        AuthHeader()
       );
       localStorage.setItem( "TestID", response.data._id )
       console.log(response.data);

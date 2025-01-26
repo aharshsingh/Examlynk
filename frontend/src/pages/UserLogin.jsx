@@ -15,7 +15,7 @@ export default function UserRegister() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://examlynk.onrender.com/login', {
+            const response = await axios.post('http://localhost:7000/login', {
                 email,
                 password,
             });
@@ -43,6 +43,7 @@ export default function UserRegister() {
             <div>
                 <img style={{width:'120px', height:'120px'}} src={logo} alt='logo' />
             </div>
+            <div style={{  display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <div className="signup-container">
                 <h2 style={{ color: "white", fontSize: "39px", textAlign: "left", fontWeight: "400" }}>Sign in</h2>
                 <form onSubmit={handleSubmit}>
@@ -69,6 +70,7 @@ export default function UserRegister() {
                     <button type="submit">Sign In</button>
                 </form>
                 {message && <p style={{ color: "white", marginLeft: "100px", marginTop: "25px" }}>{message}</p>}
+            </div>
             </div>
         </div>
     );

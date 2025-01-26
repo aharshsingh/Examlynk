@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Test.css';
 import { UserContext } from '../context/userContext';
+import { getTest, handleSubmitAnswers } from '../uitls/Test';
+import { TestContext } from '../context/testContext';
 
 export default function Test() {
   const [test, setTest] = useState({});
@@ -11,50 +12,13 @@ export default function Test() {
   const [answers, setAnswers] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(true); 
-
   const navigate = useNavigate();
   const { userId } = useContext(UserContext);
-  const token = localStorage.getItem('UserToken');
-
-  const getAuthHeaders = () => ({
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
+  const {testId} = useContext(TestContext);
   useEffect(() => {
-    const getTest = async () => {
-      try {
-        const response = await axios.get('https://examlynk.onrender.com/test', getAuthHeaders());
-        console.log(response.data)
-        setTest(response.data);
-        await getQuestionsSequentially(response.data.questions);
-        setLoading(false); 
-      } catch (error) {
-        setLoading(false); 
-        if (error.response && error.response.status === 401) {
-          setErrorMessage('Unauthorized access. Please log in to continue.');
-        } else {
-          setErrorMessage('An error occurred while fetching the test. Please try again later.');
-          console.error('Error fetching test:', error); 
-        }
-      }
-    };
-    getTest();
+    getTest(setTest, setLoading, setErrorMessage, setQuestions, testId);
   }, []);
 
-  const getQuestionsSequentially = async (questionIds) => {
-    const fetchedQuestions = [];
-    for (let id of questionIds) {
-      try {
-        const response = await axios.get(`https://examlynk.onrender.com/question/${id}`, getAuthHeaders());
-        fetchedQuestions.push(response.data);
-      } catch (error) {
-        console.log(`Error fetching question with ID ${id}`, error);
-      }
-    }
-    setQuestions(fetchedQuestions);
-  };
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -78,36 +42,6 @@ export default function Test() {
     });
   };
 
-  const handleSubmitAnswers = async () => {
-    try {
-      const endedAt = new Date().toISOString();
-      const formattedAnswers = Object.entries(answers).map(([questionId, { option, savedAt }]) => ({
-        questionId,
-        option,
-        savedAt
-      }));
-
-      const submission = {
-        testId: test._id,
-        userId: userId,
-        selections: formattedAnswers,
-        endedAt
-      };
-      console.log(userId);
-      console.log(submission);
-
-      await axios.post('https://examlynk.onrender.com/uploadSubmission', submission, getAuthHeaders());
-      alert('Answers submitted successfully!');
-      navigate('/finish');
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        setErrorMessage('Unauthorized access. Please log in to continue.');
-      } else {
-        setErrorMessage('An error occurred while submitting answers. Please try again later.');
-        console.log('Error submitting answers:', error);
-      }
-    }
-  };
 
   if (loading) {
     return (
@@ -185,7 +119,7 @@ export default function Test() {
         </button>
         <button
           className='submitbutton'
-          onClick={handleSubmitAnswers}
+          onClick={()=> handleSubmitAnswers(answers, userId, setErrorMessage, navigate)}
         >
           Submit Answers
         </button>
