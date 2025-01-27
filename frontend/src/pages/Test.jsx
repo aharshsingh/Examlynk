@@ -5,6 +5,7 @@ import { UserContext } from '../context/userContext';
 import { getTest, handleSubmitAnswers } from '../uitls/Test';
 import { TestContext } from '../context/testContext';
 import logo from '../public/logo-transparent-png.png';
+import QuestionNav from '../component/QuestionNav';
 
 export default function Test() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -75,7 +76,7 @@ export default function Test() {
           <p className="error-message">{errorMessage}</p>
         </div>
       )}
-
+<div style={{display:'flex', justifyContent:'space-between'}}>
       <div>
         <p className='questionp'>Question {currentQuestionIndex + 1}</p>
         <div style={{display:'flex', columnGap:'500px'}}>
@@ -97,34 +98,22 @@ export default function Test() {
             </div>
             ))}
           </div>
-        <div style={{display:'flex'}}>
-          <div className='verticalLine'></div>
-          <div className='questionSerial'></div>
-        </div>
         </div>
         </div>
       </div>
-      <div>
-        <button
-          id='driverbutton1'
-          onClick={handlePrevious}
-          disabled={currentQuestionIndex === 0}
-        >
-          Previous
-        </button>
-        <button
-          id='driverbutton2'
-          onClick={handleNext}
-          disabled={currentQuestionIndex === questions.length - 1}
-        >
-          Next
-        </button>
-        <button
-          className='submitbutton'
-          onClick={()=> handleSubmitAnswers(testId, answers, user._id , setErrorMessage, navigate)}
-        >
-          Submit Answers
-        </button>
+      <div style={{marginRight:'50px'}}>
+      <QuestionNav 
+        handlePrevious={handlePrevious}
+        currentQuestionIndex={currentQuestionIndex}
+        handleNext={handleNext}
+        questions={questions}
+        handleSubmitAnswers={handleSubmitAnswers}
+        testId={testId}
+        answers={answers}
+        user={user}
+        setErrorMessage={setErrorMessage}
+        navigate={navigate} />
+      </div>
       </div>
     </div>
     </>
