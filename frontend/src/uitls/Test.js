@@ -33,7 +33,6 @@ export const TitleSort = (event, setSelectedOption2, tests, setTests)=>{
 
 export const getTest = async (setTest, setLoading, setErrorMessage, setQuestions, testId) => {
   try {
-    console.log(testId);
     const response = await axios.get(`http://localhost:7000/test/${testId}`, AuthHeader());
     await getQuestionsSequentially(response.data.questions, setQuestions);
     setLoading(false); 

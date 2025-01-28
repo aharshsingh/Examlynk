@@ -1,6 +1,8 @@
 .glassEffect{
     width: 400px;
-    height: 700px;
+    margin-top: 10px;
+    height: 80vh;
+    max-height: 700px;
     color: #fff;
     background: rgba(255, 255, 255, 0.1); 
     border-radius: 5px;
@@ -8,6 +10,7 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); 
     border: 1px solid rgba(255, 255, 255, 0.2); 
 }
+
 .questionBox{
     width: 30px;
     height: 30px;
@@ -21,4 +24,17 @@
     display: flex;
     flex-direction: column;
     justify-content: center; 
+    cursor: pointer;
 }
+
+.questionBox.attempted{
+    background-color: #f94449
+}
+
+.questionBox.answered {
+    background-color: #acd8a7;
+}
+
+.questionBox.reviewed {
+    background-color: #ffad00;
+  }

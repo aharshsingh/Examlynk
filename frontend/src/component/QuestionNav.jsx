@@ -1,21 +1,20 @@
 import React, {useEffect, useState} from 'react'
 import '../styles/QuestionNav.css';
 
-export default function QuestionNav({handlePrevious, currentQuestionIndex, handleNext, questions, handleSubmitAnswers, testId, answers, user, setErrorMessage, navigate}) {
-  const[questionState, setQuestionState] = useState([]);
-  useEffect(()=>{
-    const arr = [];
-    for(let i=0;i<questions.length;i++){
-      arr.push({
-        questionIndex: i+1,
-        attempted: false,
-        answered: false,
-        reviwed: false
-      })
-      setQuestionState(arr);
-    }
+export default function QuestionNav({handlePrevious, currentQuestionIndex, setCurrentQuestionIndex, handleNext, questions, handleSubmitAnswers, testId, answers, user, setErrorMessage, navigate, setQuestionState, questionState, handleReview, removeReview}) {
 
-  },[])
+  const handleClick = (index)=>{
+    setCurrentQuestionIndex(index-1);
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === index){
+          return { ...question, attempted: true };
+        }
+        return question;
+      })
+    ))
+  }
+  
   return (
     <div className='glassEffect'>
       <div>
@@ -23,15 +22,21 @@ export default function QuestionNav({handlePrevious, currentQuestionIndex, handl
       </div>
       <div>
         <p style={{fontSize:'15px', padding:'11px'}}>Question Palette:</p>
-        <div style={{width:'380px', height:'300px', marginLeft:'10px', display:'flex', columnGap:'10px', flexWrap: 'wrap'}}>
+        <div style={{width:'380px', marginLeft:'10px', display:'flex', flexDirection:'row', columnGap:'10px', rowGap:'10px', flexWrap: 'wrap'}}>
         {
-          questionState.map((que)=>(
-            <div className='questionBox' key={que._id}>
-            <p>{que.questionIndex}</p>
+          questionState.map((que) => (
+            <div
+              onClick={() => handleClick(que.questionIndex)}
+              className={`questionBox 
+                ${que.reviewed ? 'reviewed' : que.answered ? 'answered' : que.attempted ? 'attempted' : ''}`}
+              key={que._id}>
+              <p>{que.questionIndex}</p>
             </div>
           ))
         }
         </div>
+        </div>
+        <div style={{marginTop:'300px'}}>
       <div style={{display:'flex', columnGap:'20px', justifyContent:'center'}}>
         <button
           style={{width:'100px'}}
@@ -73,10 +78,10 @@ export default function QuestionNav({handlePrevious, currentQuestionIndex, handl
       <div style={{display:'flex', justifyContent:'space-around'}}>
       <button
           style={{width:'150px'}}
-          onClick={handleNext}
+          onClick={questionState[currentQuestionIndex].reviewed? removeReview : handleReview}
           disabled={currentQuestionIndex === questions.length - 1}
         >
-          Mark for review
+          {questionState[currentQuestionIndex].reviewed? "Unmark from review" : "Mark for review"}
         </button>
         <button
           style={{width:'150px'}}

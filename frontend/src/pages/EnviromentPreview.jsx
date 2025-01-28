@@ -1,10 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../public/logo-transparent-png.png';
+import { TestContext } from '../context/testContext';
 
 export default function EnviromentPreview() {
+  const {getTest} = useContext(TestContext);
   const videoRef = useRef(null);
   const [permissionGranted,setPermissionGranted] = useState(false);
+
+  useEffect(()=>{
+    getTest();
+  },[])
 
   useEffect(() => {
     async function getMediaStream() {

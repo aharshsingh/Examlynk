@@ -15,7 +15,21 @@ export default function Test() {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const {testId, test, setTest, questions, setQuestions} = useContext(TestContext);
+  const[questionState, setQuestionState] = useState([]);
 
+  useEffect(()=>{
+    const arr = [];
+    for(let i=0;i<questions.length;i++){
+      arr.push({
+        questionIndex: i+1,
+        attempted: false,
+        answered: false,
+        reviewed: false
+      })
+      setQuestionState(arr);
+    }
+
+  },[])
   useEffect(() => {
     getTest(setTest, setLoading, setErrorMessage, setQuestions, testId);
   }, []);
@@ -24,13 +38,28 @@ export default function Test() {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
-    console.log(user)
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === currentQuestionIndex+2){
+          return { ...question, attempted: true };
+        }
+        return question;
+      })
+    ))
   };
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
       setCurrentQuestionIndex(currentQuestionIndex - 1);
     }
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === currentQuestionIndex){
+          return { ...question, attempted: true };
+        }
+        return question;
+      })
+    ))
   };
 
   const handleOptionChange = (questionId, option) => {
@@ -41,7 +70,48 @@ export default function Test() {
         savedAt: new Date().toISOString()
       }
     });
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === currentQuestionIndex+1){
+          return { ...question, answered: true };
+        }
+        return question;
+      })
+    ))
   };
+
+  const handleReview = ()=>{
+    if (currentQuestionIndex < questions.length - 1) {
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
+    }
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === currentQuestionIndex+1){
+          return { ...question, reviewed: true };
+        }
+        return question;
+      })
+    ))
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === currentQuestionIndex+2){
+          return { ...question, attempted: true };
+        }
+        return question;
+      })
+    ))
+  }
+
+  const removeReview = ()=>{
+    setQuestionState((prev) =>(
+      prev.map((question)=>{
+        if(question.questionIndex === currentQuestionIndex+1){
+          return { ...question, reviewed: false };
+        }
+        return question;
+      })
+    ))
+  }
 
   if (loading) {
     return (
@@ -105,6 +175,7 @@ export default function Test() {
       <QuestionNav 
         handlePrevious={handlePrevious}
         currentQuestionIndex={currentQuestionIndex}
+        setCurrentQuestionIndex={setCurrentQuestionIndex}
         handleNext={handleNext}
         questions={questions}
         handleSubmitAnswers={handleSubmitAnswers}
@@ -112,7 +183,11 @@ export default function Test() {
         answers={answers}
         user={user}
         setErrorMessage={setErrorMessage}
-        navigate={navigate} />
+        navigate={navigate}
+        questionState={questionState} 
+        setQuestionState={setQuestionState}
+        handleReview={handleReview}
+        removeReview={removeReview} />
       </div>
       </div>
     </div>
