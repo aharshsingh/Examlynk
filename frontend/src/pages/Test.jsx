@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Test.css';
 import { UserContext } from '../context/userContext';
-import { getTest, handleSubmitAnswers } from '../uitls/Test';
+import { getQuestionsSequentially, handleSubmitAnswers } from '../uitls/Test';
 import { TestContext } from '../context/testContext';
 import logo from '../public/logo-transparent-png.png';
 import QuestionNav from '../component/QuestionNav';
@@ -14,24 +14,11 @@ export default function Test() {
   const [loading, setLoading] = useState(true); 
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const {testId, test, setTest, questions, setQuestions} = useContext(TestContext);
-  const[questionState, setQuestionState] = useState([]);
+  const {testId, test, setTest, questions, setQuestions, questionState, setQuestionState} = useContext(TestContext);
 
-  useEffect(()=>{
-    const arr = [];
-    for(let i=0;i<questions.length;i++){
-      arr.push({
-        questionIndex: i+1,
-        attempted: false,
-        answered: false,
-        reviewed: false
-      })
-      setQuestionState(arr);
-    }
-
-  },[])
   useEffect(() => {
-    getTest(setTest, setLoading, setErrorMessage, setQuestions, testId);
+    getQuestionsSequentially(test.questions, setQuestions);
+    setLoading(false)
   }, []);
 
   const handleNext = () => {

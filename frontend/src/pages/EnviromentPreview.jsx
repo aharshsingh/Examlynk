@@ -9,9 +9,9 @@ export default function EnviromentPreview() {
   const [permissionGranted,setPermissionGranted] = useState(false);
 
   useEffect(()=>{
-    getTest();
-  },[])
-
+      getTest();
+    },[]);
+ 
   useEffect(() => {
     async function getMediaStream() {
       try {

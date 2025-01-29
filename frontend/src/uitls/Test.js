@@ -31,26 +31,26 @@ export const TitleSort = (event, setSelectedOption2, tests, setTests)=>{
     return;
     }
 
-export const getTest = async (setTest, setLoading, setErrorMessage, setQuestions, testId) => {
-  try {
-    const response = await axios.get(`http://localhost:7000/test/${testId}`, AuthHeader());
-    await getQuestionsSequentially(response.data.questions, setQuestions);
-    setLoading(false); 
-    localStorage.setItem('test', JSON.stringify(response.data));
-    setTest(response.data);
-  } catch (error) {
-    setLoading(false); 
-    if (error.response && error.response.status === 401) {
-      setErrorMessage('Unauthorized access. Please log in to continue.');
-    } else {
-      setErrorMessage('An error occurred while fetching the test. Please try again later.');
-      console.error('Error fetching test:', error); 
-    }
-  }
-  return;
-};
+// export const getTest = async (setTest, setLoading, setErrorMessage, setQuestions, testId) => {
+//   try {
+//     const response = await axios.get(`http://localhost:7000/test/${testId}`, AuthHeader());
+//     await getQuestionsSequentially(response.data.questions, setQuestions);
+//     setLoading(false); 
+//     localStorage.setItem('test', JSON.stringify(response.data));
+//     setTest(response.data);
+//   } catch (error) {
+//     setLoading(false); 
+//     if (error.response && error.response.status === 401) {
+//       setErrorMessage('Unauthorized access. Please log in to continue.');
+//     } else {
+//       setErrorMessage('An error occurred while fetching the test. Please try again later.');
+//       console.error('Error fetching test:', error); 
+//     }
+//   }
+//   return;
+// };
 
-const getQuestionsSequentially = async (questionIds, setQuestions) => {
+export const getQuestionsSequentially = async (questionIds, setQuestions) => {
   const fetchedQuestions = [];
   for (let id of questionIds) {
     try {
@@ -61,6 +61,7 @@ const getQuestionsSequentially = async (questionIds, setQuestions) => {
     }
   }
   setQuestions(fetchedQuestions);
+  console.log(fetchedQuestions)
   localStorage.setItem('questions', JSON.stringify(fetchedQuestions));
   return;
 };
