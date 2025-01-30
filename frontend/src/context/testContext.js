@@ -8,11 +8,8 @@ export const TestProvider = ({ children }) => {
   const [testId, setTestId] = useState(() => localStorage.getItem('testId') || '');
   const [test, setTest] = useState(() => JSON.parse(localStorage.getItem('test')) || {}); 
   const [questions, setQuestions] = useState(() => JSON.parse(localStorage.getItem('questions')) || []); 
-  const [questionState, setQuestionState] = useState(() => JSON.parse(localStorage.getItem('questionState')) || []);
-
-    useEffect(()=>{
-      console.log(questions.length)
-      if(questions.length > 0){
+  const initializeQuestionState = ()=>{
+    if(questions.length > 0){
       const arr = [];
       for(let i=0;i<questions.length;i++){
         arr.push({
@@ -21,12 +18,22 @@ export const TestProvider = ({ children }) => {
           answered: false,
           reviewed: false
         })
-        setQuestionState(arr);
       }
-      localStorage.setItem("questionState", JSON.stringify(arr));
+      return arr;
     }
-    },[])
+    return [];
+  }  
 
+  const [questionState, setQuestionState] = useState(() => JSON.parse(localStorage.getItem('questionState')));
+    useEffect(() => {
+      localStorage.setItem('questionState', JSON.stringify(questionState));
+    }, [questionState]);
+
+    useEffect(() => {
+      setQuestionState(initializeQuestionState());
+      localStorage.setItem('questionState', JSON.stringify(initializeQuestionState()));
+    }, [testId, questions]);
+    
   useEffect(() => {
     if (testId) {
       localStorage.setItem('testId', testId);
