@@ -16,7 +16,7 @@ export const UserProvider = ({ children }) => {
 
     const fetchUser = async (token) => {
       try {
-        const response = await axios.get('http://localhost:7000/getuser', {
+        const response = await axios.get('https://examlynk.onrender.com/getuser', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

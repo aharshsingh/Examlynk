@@ -16,7 +16,7 @@ export default function AdminPage() {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://examlynk.onrender.com/uploadTest',
+        'hhttps://examlynk.onrender.com/uploadTest',
         {
           title,
           descriptions,

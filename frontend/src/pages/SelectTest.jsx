@@ -16,7 +16,7 @@ export default function SelectTest() {
   useEffect(()=>{
     const getTest = async()=>{
       try {
-        const response = await axios.get('http://localhost:7000/getalltest', AuthHeader());
+        const response = await axios.get('https://examlynk.onrender.com/getalltest', AuthHeader());
         setTests(response.data);
       } catch (error) {
         console.log(error);

@@ -54,7 +54,7 @@ export const getQuestionsSequentially = async (questionIds, setQuestions) => {
   const fetchedQuestions = [];
   for (let id of questionIds) {
     try {
-      const response = await axios.get(`http://localhost:7000/question/${id}`,AuthHeader());
+      const response = await axios.get(`https://examlynk.onrender.com/question/${id}`,AuthHeader());
       fetchedQuestions.push(response.data);
     } catch (error) {
       console.log(`Error fetching question with ID ${id}`, error);
@@ -81,7 +81,7 @@ export const handleSubmitAnswers = async (testId, answers, userId, setErrorMessa
       endedAt
     };
     console.log('Submission payload:', submission);
-    await axios.post('http://localhost:7000/uploadSubmission', submission, AuthHeader());
+    await axios.post('https://examlynk.onrender.com/uploadSubmission', submission, AuthHeader());
     alert('Answers submitted successfully!');
     navigate('/finish');
   } catch (error) {

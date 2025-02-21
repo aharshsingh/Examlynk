@@ -15,7 +15,7 @@ export default function UserRegister() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:7000/login', {
+            const response = await axios.post('https://examlynk.onrender.com/login', {
                 email,
                 password,
             });

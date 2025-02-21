@@ -125,7 +125,7 @@ export const TestProvider = ({ children }) => {
 
   const getTest = async () => {
     try {
-      const response = await axios.get(`http://localhost:7000/test/${testId}`, AuthHeader());
+      const response = await axios.get(`https://examlynk.onrender.com/test/${testId}`, AuthHeader());
       localStorage.setItem('test', JSON.stringify(response.data));
       setTest(response.data);
       console.log(response.data);
