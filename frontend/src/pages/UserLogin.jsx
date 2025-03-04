@@ -29,6 +29,7 @@ export default function UserRegister() {
                 setMessage('Login failed. Please try again.');
             }
         } catch (error) {
+            console.log(error)
             console.error('Login failed:', error.response ? error.response.data : error.message);
             setMessage('Login failed. Please try again.');
         }

@@ -8,12 +8,6 @@ const errorHandler = require('./middlewares/errorHandler');
 const cron = require('node-cron');
 const mailController = require('./services/mailController');
 
-const corsOptions = {
-  origin: 'http://localhost:3000', 
-  methods: 'GET,POST,PUT,DELETE,PATCH',
-  credentials: true,
-};
-
 // cron.schedule('0 * * * *', async () => {
 //   console.log('Running a task every hour to check submissions...');
 //   mailController.sendmail();
@@ -33,7 +27,7 @@ db.once('open', () => {
   console.log('DB connected...');
 });
 
-app.use(cors(corsOptions)); 
+app.use(cors()); 
 app.use(express.json());
 app.use(routes);
 app.use(errorHandler);
